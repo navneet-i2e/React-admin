@@ -1,35 +1,42 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import Home from "./pages/home/Home";
+import Users from "./pages/users/Users";
+import Products from "./pages/products/Products";
+import Navbar from "./components/navbar/Navbar";
+import Footer from "./components/footer/Footer";
+import Menu from "./components/menu/Menu";
+import Login from "./pages/login/Login";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+import "./styles/global.scss";
+const App = () => {
+  const Layout = () => {
+    return (
+      <div className="main">
+        <Navbar />
+        <div className="container">
+          <div className="menuContainer">
+            <Menu />
+          </div>
+          <div className="contentContainer">
+            <Outlet /> {/* This renders the child route components */}
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  };
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="/users" element={<Users />} />
+          <Route path="/products" element={<Products />} />
+        </Route>
+        <Route path="/login" element={<Login />}></Route>
+      </Routes>
+    </BrowserRouter>
+  );
+};
 
-export default App
+export default App;
